@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+    <atom:link href="https://mutazjustmutaz.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <title>Mutaz</title>
+    <link>https://mutazjustmutaz.github.io</link>
+    <description>Tech blog.</description>
+    <language>en-us</language> 
+    <item>
+      <title>No Left-Click For You</title>
+      <pubDate>29 July 2022 12:40:21 GMT</pubDate>
+      <link>https://mutazjustmutaz.github.io/posts/left-click.html</link>
+      <guid>https://mutazjustmutaz.github.io/posts/left-click.html</guid>
+      <description>A few days ago a software update on Ubuntu broke the left-click functionality on my touch pad. This is how it happened and how I fixed.</description>
+    </item>
+  </channel>
+</rss>
