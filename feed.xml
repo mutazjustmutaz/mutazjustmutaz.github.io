@@ -5,7 +5,14 @@
     <title>Mutaz</title>
     <link>https://mutazjustmutaz.github.io</link>
     <description>Tech blog.</description>
-    <language>en-us</language> 
+    <language>en-us</language>
+     <item>
+      <title>Jellyfish</title>
+      <pubDate>31 August 2022 12:40:21 GMT</pubDate>
+      <link>https://mutazjustmutaz.github.io/posts/ubuntu-upgrade.html</link>
+      <guid>https://mutazjustmutaz.github.io/posts/ubuntu-upgrade.html</guid>
+      <description>Every two years the time comes to upgrade my Ubuntu.</description>
+    </item>
     <item>
       <title>No Left-Click For You</title>
       <pubDate>29 July 2022 12:40:21 GMT</pubDate>
