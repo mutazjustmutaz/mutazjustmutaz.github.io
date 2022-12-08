@@ -14,7 +14,7 @@
 <br>
 <div id="menu">
 <ul class="menubar">
-  <li><a href="index.html"><strong>Home</strong></a></li><li><a href="tags/linux.html"><strong>Linux</strong></a></li><li><a href="tags/windows.html"><strong>Windows</strong></a></li><li><a href="#"><strong>Section</strong></a></li>
+  <li><a href="index.html"><strong>Home</strong></a></li><li><a href="tags/linux.html"><strong>Linux</strong></a></li><li><a href="tags/windows.html"><strong>Windows</strong></a></li><li><a href="tags/c.html"><strong>C</strong></a></li>
 </ul>
 </div>
 <br><br>
@@ -26,6 +26,8 @@
 <br><br>
 <a href="tags/windows.html"><strong>windows</strong></a>
 <br/><br/>
+<a href="tags/c.html"><strong>c</strong></a>
+<br/><br/>
 </div>
 <br>
 <div id="iconsdiv">
@@ -34,6 +36,52 @@
 </div>
 
 <div id="postwrapper">
+
+<div class="post">
+<h2><a href="posts/fts-mixup.html">A Interesting Mix-Up in the Documentation for the fts Library</a></h2>
+
+<p>In the C programming language, recursive directory traversal is provided by POSIX’s ftw library. But there’s also a popular non-POSIX library that provides the same service, which is fts. It originated in BSD, and was later adopted by Linux (via glibc) and macOS. </p>
+
+<p>The fts library traverses a directory recursively and returns a struct for each file it encounters. The returned struct contains comprehensive information about the file, including the following properties:</p>
+<pre>
+char *fts_path;		     /*	root path */
+size_t fts_pathlen;	     /*	strlen(fts_path) */
+char *fts_name;		     /*	file name */
+size_t fts_namelen;	     /*	strlen(fts_name) */
+</pre>
+<p>It’s important to note that this is taken from the FreeBSD documentation. The fts_path property is described as the “root path”, but what it actually provides is the file’s full path. The long description contains the reason for this choice of words:</p>
+<pre>
+fts_path
+              The path for the file relative to the root of the
+              traversal.  This path contains the path specified to
+              fts_open() as a prefix.
+</pre>
+<p>Generally, describing a path as root implies that it’s a directory. The BSD people chose to describe the full file path as “root” because of its relation to the path of the directory being traversed, which, in this context, is a root path.</p>
+<p>As it happens, this BSD use of the word caused a mix-up to happen in the library’s GNU documentation:</p>
+<pre>
+char           *fts_path;     /* root path */
+short           fts_pathlen;  /* strlen(fts_path) +
+                                                strlen(fts_name) */
+char           *fts_name;     /* filename */
+short           fts_namelen;  /* strlen(fts_name) */
+</pre>
+<p>Because fts_path is described as the “root path”, the writer thought that it represents the directory containing the file, and that led him to redefine fts_pathlen as the sum of the lengths of the fts_path and fts_name properties. This happened even though the GNU documentation’s long description is copied verbatim from the FreeBSD documentation:</p>
+<pre>
+fts_path
+              The path for the file relative to the root of the
+              traversal.  This path contains the path specified to
+              fts_open() as a prefix.
+</pre>
+<p>This mistake happened because of a combination of BSD’s unconventional use of a technical term and the GNU writer’s failure to read (or comprehend) the relevant description. Another interesting observation to be made here is that the library’s documentation was written by someone who hasn’t actually worked with the library.</p>
+
+<p class="infopar">
+<strong>
+Posted: 8-12-2022  
+<br/>
+Tags: <a href="tags/c.html">c</a>
+</strong>
+</p>
+</div>
 
 <div class="post">
 <h2><a href="posts/winfail.html">Windows Blues</a></h2>

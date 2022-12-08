@@ -7,6 +7,13 @@
     <description>Tech blog.</description>
     <language>en-us</language>
 	<item>
+      <title>An Interesting Mix-Up in the Documentation for the fts Library</title>
+      <pubDate>08 December 2022 12:40:21 GMT</pubDate>
+      <link>https://mutazjustmutaz.github.io/posts/fts-mixup.html</link>
+      <guid>https://mutazjustmutaz.github.io/posts/fts-mixup.html</guid>
+      <description>An interesting mix-up in the documentation for the fts library.</description>
+    </item>
+	<item>
       <title>Windows Blues</title>
       <pubDate>22 September 2022 12:40:21 GMT</pubDate>
       <link>https://mutazjustmutaz.github.io/posts/winfail.html</link>
