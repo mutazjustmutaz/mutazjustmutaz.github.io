@@ -2,7 +2,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Windows Blues</title>
+<title>An Interesting Mix-Up in the Documentation of the fts Library</title>
 <link href="../style.css" rel="stylesheet" type="text/css"/>
 <style>
 .post {
@@ -36,7 +36,7 @@
 
 <div id="postwrapper">
 <div class="post">
-<h2>An Interesting Mix-Up in the Documentation for the fts Library</h2>
+<h2>An Interesting Mix-Up in the Documentation of the fts Library</h2>
 
 <p>In the C programming language, recursive directory traversal is provided by POSIX’s ftw library. But there’s also a popular non-POSIX library that provides the same service, which is fts. It originated in BSD, and was later adopted by Linux (via glibc) and macOS. </p>
 
@@ -47,7 +47,7 @@ size_t fts_pathlen;	     /*	strlen(fts_path) */
 char *fts_name;		     /*	file name */
 size_t fts_namelen;	     /*	strlen(fts_name) */
 </pre>
-<p>It’s important to note that this is taken from the FreeBSD documentation. The fts_path property is described as the “root path”, but what it actually provides is the file’s full path. The long description contains the reason for this choice of words:</p>
+<p>It’s important to note that this is taken from the <a href="https://www.freebsd.org/cgi/man.cgi?query=fts&sektion=3">FreeBSD documentation</a>. The fts_path property is described as the “root path”, but what it actually provides is the file’s full path. The long description contains the reason for this choice of words:</p>
 <pre>
 fts_path
               The path for the file relative to the root of the
@@ -55,7 +55,7 @@ fts_path
               fts_open() as a prefix.
 </pre>
 <p>Generally, describing a path as root implies that it’s a directory. The BSD people chose to describe the full file path as “root” because of its relation to the path of the directory being traversed, which, in this context, is a root path.</p>
-<p>As it happens, this BSD use of the word caused a mix-up to happen in the library’s GNU documentation:</p>
+<p>As it happens, this BSD use of the word caused a mix-up to happen in the library’s <a href="https://man7.org/linux/man-pages/man3/fts.3.html">GNU documentation</a>:</p>
 <pre>
 char           *fts_path;     /* root path */
 short           fts_pathlen;  /* strlen(fts_path) +
@@ -63,6 +63,7 @@ short           fts_pathlen;  /* strlen(fts_path) +
 char           *fts_name;     /* filename */
 short           fts_namelen;  /* strlen(fts_name) */
 </pre>
+
 <p>Because fts_path is described as the “root path”, the writer thought that it represents the directory containing the file, and that led him to redefine fts_pathlen as the sum of the lengths of the fts_path and fts_name properties. This happened even though the GNU documentation’s long description is copied verbatim from the FreeBSD documentation:</p>
 <pre>
 fts_path
