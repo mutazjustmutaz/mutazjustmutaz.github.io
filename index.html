@@ -37,6 +37,47 @@
 
 <div id="postwrapper">
 
+  <div class="post">
+<h2><a href="posts/automatic-logouts-ubuntu.html">Automatic Logouts on Ubuntu 22.04</a></h2>
+
+<p>In a <a href="posts/ubuntu-upgrade.html">previous post</a> I detailed the issues that arose when I upgraded my Ubuntu to 22.04 (a.k.a. Jellyfish), and gave a broad outline of how I went about fixing them. But there’s one nasty issue I left out: after the upgrade I found out that the OS would sometimes automatically log me out right after I log in. The behavior was very inconsistent. Sometimes I got logged out, sometimes I didn’t. I would have to try logging in a varying number of times, up to 6 or 7, before a log in would be accepted. The time interval between logging in and getting logged out ranged from immediately to 2 minutes. It was an annoying bug, but it was another couple of months before I decided to tackle it. Fixing the other upgrade problems took a couple of hours, but I had a feeling this one was different. I had software projects I wanted to work on, so I decided to postpone dealing with the problem.</p> 
+
+<p>When I finally started working on the issue, the first thing I discovered was that it doesn’t happen when I switch from Wayland to Xorg. Since Ubuntu 22.04 was Wayland’s debut as the default display server, I concluded that something broke in Wayland during the upgrade. With this conclusion in hand I turned to Google for help. A search informed me that it’s a problem which many Linux users have experienced before, but there was little in the way of solutions which relate to my specific case. A useful suggestion was trying to log in using a test user account, something which informed me that the problem was system-wide and, consequently, enabled me to rule out my user’s configuration files as the source of the problem. Another suggestion was checking my <i>tmp</i> directory’s permissions, but there was nothing anomalous there. Other than that the only relevant suggestion I found was the nuclear option: reinstalling the desktop environment and the gdm. The reinstallation process went smoothly, but when I tried to log in afterwards the OS logged me out again. At this point I concluded that the cause of the issue was unique to my case and that I, consequently, had to come up with a solution on my own.</p>
+
+<p>I started, naturally enough, with examining the authentication log. But after poring over its records for a long time I finally came to the conclusion that there was nothing relating to the problem there. I examined the kernel log next, but the result was the same. The breakthrough came when I moved on to the <i>syslog</i>. When I examined the event records whose timestamps matched the time of the automatic log outs, I discovered that every time an automatic log out happens a couple of records similar to these  would be present:<br>
+<i>13 Jan 29 08:12:12 COMPUTER NAME systemd-oomd[644]: Killed /user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.Shell@wayland.service due to memory pressure for /user.slice/user-1000.slice/user@1000.service being 55.78% > 50.00% for > 20s with reclaim activity<br>
+13 Jan 29 08:12:12 COMPUTER NAME systemd[1899]: org.gnome.Shell@wayland.service: systemd-oomd killed 25 process(es) in this unit.</i></p>
+
+<p>The cause of the problem was now clear: the “out of memory” daemon (<i>oomd</i>) kills a bunch of the Gnome Shell’s processes every time its swap activity exceeds 50%. The problem started after the upgrade because <i>oomd</i> was turned on by default in 22.04. I’m not sure why <i>oomd</i> didn’t cause the same problem when I tried switching to Xorg. My guess is that it’s either because the Gnome Shell’s swap activity under Xorg is always lower than 50%, or that <i>oomd</i> is somehow turned off when Xorg takes over as the system’s display server.</p> 
+
+<p>I wasn’t surprised when I found out the cause of the problem. Ever since it was made a default on Jellyfish, <a href="https://www.phoronix.com/news/Ubuntu-systemd-oomd-Headaches">people have been complaining</a> about <i>oomd</i> killing software processes without proper justification and without a warning. What’s different about my case is that <i>oomd</i>’s aggressive killing of software processes has resulted in an automatic logouts problem.</p> 
+
+<p>The solution was disabling <i>oomd</i>. Following the instructions outlined <a href="https://askubuntu.com/questions/1404888/how-do-i-disable-the-systemd-oom-process-killer-in-ubuntu-22-04">here</a>, I executed the command:<br> 
+<i>systemctl disable --now systemd-oomd</i><br>
+then checked the status of the process using:<br>
+<i>systemctl is-enabled systemd-oomd</i><br>
+The result was exactly what it was supposed to be:<br>
+<i>disabled</i><br>
+I logged out and then logged in. To my surprise, I got automatically logged out again. The next log in attempt was successful. When I checked <i>syslog</i> I found the familiar records showing that <i>oomd</i> had, once again, killed a bunch of the Gnome Shell’s processes right before the automatic logout. I checked the status of <i>oomd</i> but the official verdict was that the process was still:<br> 
+<i>disabled</i><br>
+<em>The oomd process was running even though its official status was “disabled”.</em> It was time to go for a more dramatic solution, and the recommendation was using the command:<br> 
+<i>systemctl mask systemd-oomd</i><br>
+for which the result is:<br>
+<i>Created symlink /etc/systemd/system/systemd-oomd.service → /dev/null.</i><br>
+I’m happy to say that this was the end of the automatic logout problem on my Ubuntu.</p>
+
+<p>Linux has <a href="https://www.phoronix.com/news/Linux-Does-Bad-Low-RAM">historically had a serious problem</a> dealing with situations where the system is critically low on memory. The “Task Manager” was the <a href="https://www.reddit.com/r/techsupport/comments/gqb915/i_wrote_task_manager_and_i_just_remembered/">brilliant solution</a> which Microsoft’s developers came up with, in <em>1994</em>, to handle situations like these. In contrast, Linux’s userspace attempt, taken a <em>quarter of a century</em> later, to tackle this problem turned out to be the cure that is as bad as the disease.</p> 
+
+<p>What about the “Year of Linux on the Desktop”? Maybe the next millennium.</p>
+
+<p class="infopar">
+<strong>Posted: 12-02-2023</strong>  
+<br/>
+<strong>Tags:</strong> <a href="tags/linux.html">linux</a>
+</p>
+
+  </div>
+  
 <div class="post">
 <h2><a href="posts/fts-mixup.html">A Interesting Mix-Up in the Documentation of the fts Library</a></h2>
 

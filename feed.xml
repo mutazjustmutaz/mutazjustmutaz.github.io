@@ -6,6 +6,13 @@
     <link>https://mutazjustmutaz.github.io</link>
     <description>Tech blog.</description>
     <language>en-us</language>
+    <item>
+      <title>Automatic Logouts on Ubuntu 22.04</title>
+      <pubDate>12 February 2023 12:40:21 GMT</pubDate>
+      <link>https://mutazjustmutaz.github.io/posts/automatic-logouts-ubuntu.html</link>
+      <guid>https://mutazjustmutaz.github.io/posts/automatic-logouts-ubuntu.html</guid>
+      <description>Getting automatically logged out after upgrading to Jellyfish.</description>
+    </item>
 	<item>
       <title>An Interesting Mix-Up in the Documentation of the fts Library</title>
       <pubDate>08 December 2022 12:40:21 GMT</pubDate>
