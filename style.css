@@ -128,7 +128,7 @@ ul.menubar a:hover {
 	  }
 	
 	ul.menubar a {
-		font-size: 1.5em;
+	        font-size: 1.5em;
 	}
 	
 	#metadiv {
@@ -147,8 +147,8 @@ ul.menubar a:hover {
 	}
 	
 	#tagmain {
-		left: 15%;
-		
+	    left: 15%;
+	    width: fit-content;
 	}
 }
 
@@ -186,7 +186,7 @@ ul.tagul li {
 }
 
 ul.tagul li a {
-	font-size: 1em;
+    font-size: 1em;
 }
 
 /***********/
